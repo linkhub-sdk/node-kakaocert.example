@@ -5,8 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// Router handler
 var routes = require('./routes/index');
-var users = require('./routes/users');
+
+// Kakaocert Router handler 추가
+var kakaocert = require('./routes/kakaocert');
+
 
 var app = express();
 
@@ -23,7 +27,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+
+// Kakaocert URL Router 매핑
+app.use('/KakaocertService', kakaocert);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,11 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<head>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <title>kakaocert SDK Nodejs - Express Example.</title>
+</head>
+<body>
+<div id="content">
+    <p class="heading1">Kakaocert Nodejs SDK - Express Example.</p>
+    <br/>
+    <fieldset class="fieldset1">
+        <legend>간편 전자서명 API</legend>
+        <ul>
+            <li><a href="KakaocertService/RequestESign">RequestESign</a> - 간편 전자서명 요청 API</li>
+            <li><a href="KakaocertService/GetESignResult">GetESignResult</a> - 간편 전자서명 결과확인 API</li>
+        </ul>
+    </fieldset>
+    <br/>
+    <fieldset class="fieldset1">
+        <legend>본인인증 API</legend>
+        <ul>
+            <li><a href="KakaocertService/RequestVerifyAuth">RequestVerifyAuth</a> - 본인인증 요청 API</li>
+            <li><a href="KakaocertService/GetVerifyAuthResult">GetVerifyAuthResult</a> - 본인인증 결과확인 API</li>
+        </ul>
+    </fieldset>
+    <br/>
+    <fieldset class="fieldset1">
+        <legend>자동이체 출금동의 API</legend>
+        <ul>
+            <li><a href="KakaocertService/RequestCMS">RequestCMS</a> - 자동이체 출금동의 요청 API</li>
+            <li><a href="KakaocertService/GetCMSResult">GetCMSResult</a> - 자동이체 출금동의 결과확인 API</li>
+        </ul>
+    </fieldset>
+</div>
+</body>
 </html>
