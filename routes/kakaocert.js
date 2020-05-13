@@ -213,7 +213,6 @@ router.get('/GetVerifyAuthResult', function (req, res, next) {
     function(response){
         res.render('getVerifyAuthResult', {path: req.path, result: response});
     }, function(error){
-        console.log(error)
         res.render('response', {path: req.path, code: error.code, message: error.message});
     });
 
