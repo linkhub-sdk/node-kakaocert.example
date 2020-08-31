@@ -239,7 +239,7 @@ router.get('/RequestESign', function (req, res, next) {
     ReceiverBirthDay : '19900108',
 
     // 수신자 휴대폰번호
-    ReceiverHP : '01043245117',
+    ReceiverHP : '010111222',
 
     // 수신자 성명
     ReceiverName : '테스트',
@@ -324,7 +324,7 @@ router.get('/RequestESignApp', function (req, res, next) {
     ReceiverBirthDay : '19900108',
 
     // 수신자 휴대폰번호
-    ReceiverHP : '01043245117',
+    ReceiverHP : '010111222',
 
     // 수신자 성명
     ReceiverName : '테스트',
