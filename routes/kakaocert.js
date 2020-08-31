@@ -118,7 +118,7 @@ router.get('/GetCMSResult', function (req, res, next) {
   var clientCode = '020040000001';
 
   // 자동이체 출금동의 요청시 반환받은 접수아이디
-  var receiptId = '020050414211600001';
+  var receiptId = '020042914014900001';
 
   kakaocertService.getCMSResult(clientCode, receiptId,
     function(response){
@@ -207,7 +207,7 @@ router.get('/GetVerifyAuthResult', function (req, res, next) {
   var clientCode = '020040000001';
 
   // 본인인증 요청시 반환받은 접수아이디
-  var receiptId = '020050710115800001';
+  var receiptId = '020042909560500001';
 
   kakaocertService.getVerifyAuthResult(clientCode, receiptId,
     function(response){
@@ -219,7 +219,7 @@ router.get('/GetVerifyAuthResult', function (req, res, next) {
 });
 
 /*
-* 간편 전자서명 인증을 요청합니다.
+* 전자서명 인증을 요청합니다. (Talk Message 방식)
 */
 router.get('/RequestESign', function (req, res, next) {
 
@@ -239,10 +239,10 @@ router.get('/RequestESign', function (req, res, next) {
     ReceiverBirthDay : '19900108',
 
     // 수신자 휴대폰번호
-    ReceiverHP : '01012341234',
+    ReceiverHP : '01043245117',
 
     // 수신자 성명
-    ReceiverName : '홍길동',
+    ReceiverName : '테스트',
 
     // 별칭코드, 이용기관이 생성한 별칭코드 (파트너 사이트에서 확인가능)
     // 카카오톡 인증메시지 중 "요청기관" 항목에 표시
@@ -283,7 +283,7 @@ router.get('/RequestESign', function (req, res, next) {
 });
 
 /*
-* 간편 전자서명 요청결과를 확인합니다.
+* 전자서명 요청결과를 확인합니다.
 */
 router.get('/GetESignResult', function (req, res, next) {
 
@@ -291,9 +291,101 @@ router.get('/GetESignResult', function (req, res, next) {
   var clientCode = '020040000001';
 
   // 전자서명 요청시 반환받은 접수아이디
-  var receiptId = '020050710183000001';
+  var receiptId = '020083111200500001';
 
   kakaocertService.getESignResult(clientCode, receiptId,
+    function(response){
+        res.render('getESignResult', {path: req.path, result: response});
+    }, function(error){
+        res.render('response', {path: req.path, code: error.code, message: error.message});
+    });
+
+});
+
+
+/*
+* 전자서명 인증을 요청합니다. (App To App 방식)
+*/
+router.get('/RequestESignApp', function (req, res, next) {
+
+  // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
+  var clientCode = '020040000001';
+
+  // 간편 전자서명 요청정보 객체
+  var requestESign = {
+
+    // 고객센터 전화번호, 카카오톡 인증메시지 중 "고객센터" 항목에 표시
+    CallCenterNum : '1600-8536',
+
+    // 인증요청 만료시간(초), 최대값 1000, 인증요청 만료시간(초) 내에 미인증시 만료 상태로 처리됨
+    Expires_in : 60,
+
+    // 수신자 생년월일, 형식 : YYYYMMDD
+    ReceiverBirthDay : '19900108',
+
+    // 수신자 휴대폰번호
+    ReceiverHP : '01043245117',
+
+    // 수신자 성명
+    ReceiverName : '테스트',
+
+    // 별칭코드, 이용기관이 생성한 별칭코드 (파트너 사이트에서 확인가능)
+    // 카카오톡 인증메시지 중 "요청기관" 항목에 표시
+    // 별칭코드 미 기재시 이용기관의 이용기관명이 "요청기관" 항목에 표시
+    SubClientID : '',
+
+    // 인증요청 메시지 부가내용, 카카오톡 인증메시지 중 상단에 표시
+    TMSMessage : 'TMSMessage0423',
+
+    // 인증요청 메시지 제목, 카카오톡 인증메시지 중 "요청구분" 항목에 표시
+    TMSTitle : 'TMSTitle 0423',
+
+    // 은행계좌 실명확인 생략여부
+    // true : 은행계좌 실명확인 절차를 생략
+    // false : 은행계좌 실명확인 절차를 진행
+    // 카카오톡 인증메시지를 수신한 사용자가 카카오인증 비회원일 경우, 카카오인증 회원등록 절차를 거쳐 은행계좌 실명확인 절차를 밟은 다음 전자서명 가능
+    isAllowSimpleRegistYN : false,
+
+    // 수신자 실명확인 여부
+    // true : 카카오페이가 본인인증을 통해 확보한 사용자 실명과 ReceiverName 값을 비교
+    // false : 카카오페이가 본인인증을 통해 확보한 사용자 실명과 RecevierName 값을 비교하지 않음.
+    isVerifyNameYN : true,
+
+    // 전자서명할 토큰 원문
+    Token : 'Token Value 2345',
+
+    // PayLoad, 이용기관이 생성한 payload(메모) 값
+    PayLoad : 'Payload123',
+
+    // AppToApp 방식 인증여부
+    isAppUseYN : true,
+  };
+
+  kakaocertService.requestESign(clientCode, requestESign,
+    function(result){
+        res.render('resultApp', {path: req.path, receiptId: result.receiptId, tx_id: result.tx_id});
+    }, function(error){
+        res.render('response', {path: req.path, code: error.code, message: error.message});
+    });
+
+});
+
+
+/*
+* 전자서명 요청결과를 확인합니다.
+*/
+router.get('/GetESignResultApp', function (req, res, next) {
+
+  // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
+  var clientCode = '020040000001';
+
+  // 전자서명 요청시 반환받은 접수아이디
+  var receiptId = '020083111185500001';
+
+  // 앱스킴 sucess시 반환된 서명값(Android:signature, iOS:sig)
+  var signature = '1234';
+
+  kakaocertService.getESignResult(clientCode, receiptId, signature,
     function(response){
         res.render('getESignResult', {path: req.path, result: response});
     }, function(error){
