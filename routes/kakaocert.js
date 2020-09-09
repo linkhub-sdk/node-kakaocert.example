@@ -48,13 +48,13 @@ router.get('/RequestCMS', function (req, res, next) {
     Expires_in : 60,
 
     // 수신자 생년월일, 형식 : YYYYMMDD
-    ReceiverBirthDay : '19700101',
+    ReceiverBirthDay : '19900108',
 
     // 수신자 휴대폰번호
-    ReceiverHP : '01012341234',
+    ReceiverHP : '01043245117',
 
     // 수신자 성명
-    ReceiverName : '홍길동',
+    ReceiverName : '정요한',
 
     // 예금주명
     BankAccountName : '예금주명',
@@ -110,19 +110,38 @@ router.get('/RequestCMS', function (req, res, next) {
 });
 
 /*
-  * 자동이체 출금동의 요청결과를 확인합니다.
+  * 자동이체 출금동의 서명상태를 확인합니다.
   */
-router.get('/GetCMSResult', function (req, res, next) {
+router.get('/GetCMSState', function (req, res, next) {
 
   // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
   var clientCode = '020040000001';
 
   // 자동이체 출금동의 요청시 반환받은 접수아이디
-  var receiptId = '020042914014900001';
+  var receiptId = '020090914013000001';
 
-  kakaocertService.getCMSResult(clientCode, receiptId,
+  kakaocertService.getCMSState(clientCode, receiptId,
     function(response){
-        res.render('getCMSResult', {path: req.path, result: response});
+        res.render('getCMSState', {path: req.path, result: response});
+    }, function(error){
+        res.render('response', {path: req.path, code: error.code, message: error.message});
+    });
+});
+
+/*
+  * 자동이체 출금동의 서명을 검증합니다.
+  */
+router.get('/VerifyCMS', function (req, res, next) {
+
+  // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
+  var clientCode = '020040000001';
+
+  // 자동이체 출금동의 요청시 반환받은 접수아이디
+  var receiptId = '020090914013000001';
+
+  kakaocertService.verifyCMS(clientCode, receiptId,
+    function(response){
+        res.render('responseVerify', {path: req.path, result: response});
     }, function(error){
         res.render('response', {path: req.path, code: error.code, message: error.message});
     });
@@ -151,10 +170,10 @@ router.get('/RequestVerifyAuth', function (req, res, next) {
     ReceiverBirthDay : '19900108',
 
     // 수신자 휴대폰번호
-    ReceiverHP : '01012341234',
+    ReceiverHP : '01043245117',
 
     // 수신자 성명
-    ReceiverName : '홍길동',
+    ReceiverName : '정요한',
 
     // 별칭코드, 이용기관이 생성한 별칭코드 (파트너 사이트에서 확인가능)
     SubClientID : '',
@@ -199,19 +218,39 @@ router.get('/RequestVerifyAuth', function (req, res, next) {
 });
 
 /*
-* 본인인증 요청결과를 확인합니다.
+* 본인인증 서명상태를 확인합니다.
 */
-router.get('/GetVerifyAuthResult', function (req, res, next) {
+router.get('/GetVerifyAuthState', function (req, res, next) {
 
   // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
   var clientCode = '020040000001';
 
   // 본인인증 요청시 반환받은 접수아이디
-  var receiptId = '020042909560500001';
+  var receiptId = '020090914003300001';
 
-  kakaocertService.getVerifyAuthResult(clientCode, receiptId,
+  kakaocertService.getVerifyAuthState(clientCode, receiptId,
     function(response){
-        res.render('getVerifyAuthResult', {path: req.path, result: response});
+        res.render('getVerifyAuthState', {path: req.path, result: response});
+    }, function(error){
+        res.render('response', {path: req.path, code: error.code, message: error.message});
+    });
+
+});
+
+/*
+* 본인인증 서명을 검증합니다.
+*/
+router.get('/VerifyAuth', function (req, res, next) {
+
+  // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
+  var clientCode = '020040000001';
+
+  // 본인인증 요청시 반환받은 접수아이디
+  var receiptId = '020090914003300001';
+
+  kakaocertService.verifyAuth(clientCode, receiptId,
+    function(response){
+        res.render('responseVerify', {path: req.path, result: response});
     }, function(error){
         res.render('response', {path: req.path, code: error.code, message: error.message});
     });
@@ -226,7 +265,7 @@ router.get('/RequestESign', function (req, res, next) {
   // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
   var clientCode = '020040000001';
 
-  // 간편 전자서명 요청정보 객체
+  // 전자서명 요청정보 객체
   var requestESign = {
 
     // 고객센터 전화번호, 카카오톡 인증메시지 중 "고객센터" 항목에 표시
@@ -239,10 +278,10 @@ router.get('/RequestESign', function (req, res, next) {
     ReceiverBirthDay : '19900108',
 
     // 수신자 휴대폰번호
-    ReceiverHP : '010111222',
+    ReceiverHP : '01043245117',
 
     // 수신자 성명
-    ReceiverName : '테스트',
+    ReceiverName : '정요한',
 
     // 별칭코드, 이용기관이 생성한 별칭코드 (파트너 사이트에서 확인가능)
     // 카카오톡 인증메시지 중 "요청기관" 항목에 표시
@@ -283,19 +322,39 @@ router.get('/RequestESign', function (req, res, next) {
 });
 
 /*
-* 전자서명 요청결과를 확인합니다.
+* 전자서명 서명상태를 확인합니다.
 */
-router.get('/GetESignResult', function (req, res, next) {
+router.get('/GetESignState', function (req, res, next) {
 
   // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
   var clientCode = '020040000001';
 
   // 전자서명 요청시 반환받은 접수아이디
-  var receiptId = '020083111200500001';
+  var receiptId = '020090914071900001';
 
-  kakaocertService.getESignResult(clientCode, receiptId,
+  kakaocertService.getESignState(clientCode, receiptId,
     function(response){
-        res.render('getESignResult', {path: req.path, result: response});
+        res.render('getESignState', {path: req.path, result: response});
+    }, function(error){
+        res.render('response', {path: req.path, code: error.code, message: error.message});
+    });
+
+});
+
+/*
+* 전자서명 서명을 검증합니다.
+*/
+router.get('/VerifyESign', function (req, res, next) {
+
+  // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
+  var clientCode = '020040000001';
+
+  // 전자서명 요청시 반환받은 접수아이디
+  var receiptId = '020090914071900001';
+
+  kakaocertService.verifyESign(clientCode, receiptId,
+    function(response){
+        res.render('responseVerify', {path: req.path, result: response});
     }, function(error){
         res.render('response', {path: req.path, code: error.code, message: error.message});
     });
@@ -311,7 +370,7 @@ router.get('/RequestESignApp', function (req, res, next) {
   // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
   var clientCode = '020040000001';
 
-  // 간편 전자서명 요청정보 객체
+  // 전자서명 요청정보 객체
   var requestESign = {
 
     // 고객센터 전화번호, 카카오톡 인증메시지 중 "고객센터" 항목에 표시
@@ -324,10 +383,10 @@ router.get('/RequestESignApp', function (req, res, next) {
     ReceiverBirthDay : '19900108',
 
     // 수신자 휴대폰번호
-    ReceiverHP : '010111222',
+    ReceiverHP : '01043245117',
 
     // 수신자 성명
-    ReceiverName : '테스트',
+    ReceiverName : '정요한',
 
     // 별칭코드, 이용기관이 생성한 별칭코드 (파트너 사이트에서 확인가능)
     // 카카오톡 인증메시지 중 "요청기관" 항목에 표시
@@ -370,28 +429,26 @@ router.get('/RequestESignApp', function (req, res, next) {
 
 });
 
-
 /*
-* 전자서명 요청결과를 확인합니다.
+* 전자서명 서명을 검증합니다.
 */
-router.get('/GetESignResultApp', function (req, res, next) {
+router.get('/VerifyESignApp', function (req, res, next) {
 
   // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
   var clientCode = '020040000001';
 
   // 전자서명 요청시 반환받은 접수아이디
-  var receiptId = '020083111185500001';
+  var receiptId = '020090914071900001';
 
-  // 앱스킴 sucess시 반환된 서명값(Android:signature, iOS:sig)
+  // 앱스킴 success시 반환된 서명값(Android:signature, iOS:sig)
   var signature = '1234';
 
-  kakaocertService.getESignResult(clientCode, receiptId, signature,
+  kakaocertService.verifyESign(clientCode, receiptId, signature,
     function(response){
-        res.render('getESignResult', {path: req.path, result: response});
+        res.render('responseVerify', {path: req.path, result: response});
     }, function(error){
         res.render('response', {path: req.path, code: error.code, message: error.message});
     });
-
 });
 
 
