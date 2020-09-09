@@ -48,13 +48,13 @@ router.get('/RequestCMS', function (req, res, next) {
     Expires_in : 60,
 
     // 수신자 생년월일, 형식 : YYYYMMDD
-    ReceiverBirthDay : '19900108',
+    ReceiverBirthDay : '19800101',
 
     // 수신자 휴대폰번호
-    ReceiverHP : '01043245117',
+    ReceiverHP : '010111222',
 
     // 수신자 성명
-    ReceiverName : '정요한',
+    ReceiverName : '홍길동',
 
     // 예금주명
     BankAccountName : '예금주명',
@@ -167,13 +167,13 @@ router.get('/RequestVerifyAuth', function (req, res, next) {
     Expires_in : 60,
 
     // 수신자 생년월일, 형식 : YYYYMMDD
-    ReceiverBirthDay : '19900108',
+    ReceiverBirthDay : '19800101',
 
     // 수신자 휴대폰번호
-    ReceiverHP : '01043245117',
+    ReceiverHP : '010111222',
 
     // 수신자 성명
-    ReceiverName : '정요한',
+    ReceiverName : '홍길동',
 
     // 별칭코드, 이용기관이 생성한 별칭코드 (파트너 사이트에서 확인가능)
     SubClientID : '',
@@ -275,13 +275,13 @@ router.get('/RequestESign', function (req, res, next) {
     Expires_in : 60,
 
     // 수신자 생년월일, 형식 : YYYYMMDD
-    ReceiverBirthDay : '19900108',
+    ReceiverBirthDay : '19800101',
 
     // 수신자 휴대폰번호
-    ReceiverHP : '01043245117',
+    ReceiverHP : '010111222',
 
     // 수신자 성명
-    ReceiverName : '정요한',
+    ReceiverName : '홍길동',
 
     // 별칭코드, 이용기관이 생성한 별칭코드 (파트너 사이트에서 확인가능)
     // 카카오톡 인증메시지 중 "요청기관" 항목에 표시
@@ -380,13 +380,13 @@ router.get('/RequestESignApp', function (req, res, next) {
     Expires_in : 60,
 
     // 수신자 생년월일, 형식 : YYYYMMDD
-    ReceiverBirthDay : '19900108',
+    ReceiverBirthDay : '19800101',
 
     // 수신자 휴대폰번호
-    ReceiverHP : '01043245117',
+    ReceiverHP : '010111222',
 
     // 수신자 성명
-    ReceiverName : '정요한',
+    ReceiverName : '홍길동',
 
     // 별칭코드, 이용기관이 생성한 별칭코드 (파트너 사이트에서 확인가능)
     // 카카오톡 인증메시지 중 "요청기관" 항목에 표시
