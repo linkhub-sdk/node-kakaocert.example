@@ -110,7 +110,7 @@ router.get('/RequestCMS', function (req, res, next) {
 });
 
 /*
-  * 자동이체 출금동의 서명상태를 확인합니다.
+  * 자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다.
   */
 router.get('/GetCMSState', function (req, res, next) {
 
@@ -129,7 +129,8 @@ router.get('/GetCMSState', function (req, res, next) {
 });
 
 /*
-  * 자동이체 출금동의 서명을 검증합니다.
+  * 자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명을 검증합니다.
+  * - 서명검증시 전자서명 데이터 전문(signedData)이 반환됩니다.
   */
 router.get('/VerifyCMS', function (req, res, next) {
 
@@ -218,7 +219,7 @@ router.get('/RequestVerifyAuth', function (req, res, next) {
 });
 
 /*
-* 본인인증 서명상태를 확인합니다.
+* 본인인증 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다.
 */
 router.get('/GetVerifyAuthState', function (req, res, next) {
 
@@ -238,7 +239,9 @@ router.get('/GetVerifyAuthState', function (req, res, next) {
 });
 
 /*
-* 본인인증 서명을 검증합니다.
+* 본인인증 요청시 반환된 접수아이디를 통해 본인인증 서명을 검증합니다.
+* - 서명검증시 전자서명 데이터 전문(signedData)이 반환됩니다.
+* - 본인인증 요청시 작성한 Token과 서명 검증시 반환되는 signedData의 동일여부를 확인하여 본인인증 검증을 완료합니다.
 */
 router.get('/VerifyAuth', function (req, res, next) {
 
@@ -322,7 +325,7 @@ router.get('/RequestESign', function (req, res, next) {
 });
 
 /*
-* 전자서명 서명상태를 확인합니다.
+* 전자서명 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다.
 */
 router.get('/GetESignState', function (req, res, next) {
 
@@ -342,7 +345,8 @@ router.get('/GetESignState', function (req, res, next) {
 });
 
 /*
-* 전자서명 서명을 검증합니다.
+* [Talk Message] 전자서명 요청시 반환된 접수아이디를 통해 서명을 검증합니다.
+* - 서명검증시 전자서명 데이터 전문(signedData)이 반환됩니다.
 */
 router.get('/VerifyESign', function (req, res, next) {
 
@@ -430,7 +434,8 @@ router.get('/RequestESignApp', function (req, res, next) {
 });
 
 /*
-* 전자서명 서명을 검증합니다.
+* [App to App] 전자서명 요청시 반환된 접수아이디를 통해 서명을 검증합니다.
+* - 서명검증시 전자서명 데이터 전문(signedData)이 반환됩니다.
 */
 router.get('/VerifyESignApp', function (req, res, next) {
 
