@@ -99,11 +99,96 @@ router.get('/RequestCMS', function (req, res, next) {
 
     // 이용기관이 생성한 payload(메모) 값
     PayLoad : 'Payload123',
+
+    // AppToApp 방식 인증여부
+    isAppUseYN : false,
   };
 
   kakaocertService.requestCMS(clientCode, requestCMS,
     function(result){
-      res.render('result', {path: req.path, result: result.receiptId});
+      res.render('result', {path: req.path, receiptId: result.receiptId, tx_id: result.tx_id});
+    }, function(error){
+      res.render('response', {path: req.path, code: error.code, message: error.message});
+  });
+});
+
+/*
+ * 출금동의 전자서명을 요청합니다. (App To App 방식)
+ */
+router.get('/RequestCMSApp', function (req, res, next) {
+
+  // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
+  var clientCode = '020040000001';
+
+  // 자동이체 출금동의 요청정보 객체
+  var requestCMS = {
+
+    // 고객센터 전화번호, 카카오톡 인증메시지 중 "고객센터" 항목에 표시
+    CallCenterNum : '1600-8536',
+
+    // 인증요청 만료시간(초), 최대값 1000, 인증요청 만료시간(초) 내에 미인증시 만료 상태로 처리됨
+    Expires_in : 60,
+
+    // 수신자 생년월일, 형식 : YYYYMMDD
+    ReceiverBirthDay : '19900108',
+
+    // 수신자 휴대폰번호
+    ReceiverHP : '01043245117',
+
+    // 수신자 성명
+    ReceiverName : '정요한',
+
+    // 예금주명
+    BankAccountName : '예금주명',
+
+    // 은행코드
+    BankCode : '004',
+
+    // 계좌번호, 사용자가 식별가능한 범위내에서 계좌번호의 일부를 마스킹 처리할 수 있음(예시) 371-02-6***85
+    BankAccountNum : '9-4324-5**7-58',
+
+    // 납부자 식별번호, 이용기관에서 부여한 고객식별번호
+    ClientUserID : 'clientUserID-0423-01',
+
+    // 별칭코드
+    // 이용기관이 생성한 별칭코드 (파트너 사이트에서 확인가능)
+    // 카카오톡 인증메시지 중 "요청기관" 항목에 표시
+    // 별칭코드 미 기재시 이용기관의 이용기관명이 "요청기관" 항목에 표시
+    SubClientID : '',
+
+    // 인증요청 메시지 제목, 카카오톡 인증메시지 중 "요청구분" 항목에 표시
+    TMSTitle : 'TMSTitle 0423',
+
+    // 인증요청 메시지 부가내용, 카카오톡 인증메시지 중 상단에 표시
+    TMSMessage : 'TMSMessage0423',
+
+    /*
+    * 은행계좌 실명확인 생략여부
+    * - true : 은행계좌 실명확인 절차를 생략
+    * - false : 은행과제 실명확인 절차를 진행
+    *
+    * 카카오톡 인증메시지를 수신한 사용자가 카카오인증 비회원일 경우,
+    * 카카오인증 회원등록 절차를 거쳐 은행계좌 실명확인 절차를 밟은 다음 전자서명 가능
+    */
+    isAllowSimpleRegistYN : false,
+
+    /*
+    * 수신자 실명확인 여부
+    * true : 카카오페이가 본인인증을 통해 확보한 사용자 실명과 ReceiverName 값을 비교
+    * false : 카카오페이가 본인인증을 통해 확보한 사용자 실명과 RecevierName 값을 비교하지 않음.
+    */
+    isVerifyNameYN : false,
+
+    // 이용기관이 생성한 payload(메모) 값
+    PayLoad : 'Payload123',
+
+    // AppToApp 방식 인증여부
+    isAppUseYN : true,
+  };
+
+  kakaocertService.requestCMS(clientCode, requestCMS,
+    function(result){
+      res.render('resultApp', {path: req.path, receiptId: result.receiptId, tx_id: result.tx_id});
     }, function(error){
       res.render('response', {path: req.path, code: error.code, message: error.message});
   });
@@ -118,7 +203,7 @@ router.get('/GetCMSState', function (req, res, next) {
   var clientCode = '020040000001';
 
   // 자동이체 출금동의 요청시 반환받은 접수아이디
-  var receiptId = '020090914013000001';
+  var receiptId = '021050410003800001';
 
   kakaocertService.getCMSState(clientCode, receiptId,
     function(response){
@@ -148,6 +233,31 @@ router.get('/VerifyCMS', function (req, res, next) {
         res.render('response', {path: req.path, code: error.code, message: error.message});
     });
 });
+
+/*
+* [App to App] 자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명을 검증합니다.
+* - 서명검증시 전자서명 데이터 전문(signedData)이 반환됩니다.
+* - 카카오페이 서비스 운영정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류처리됩니다.
+*/
+router.get('/VerifyCMSApp', function (req, res, next) {
+
+  // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
+  var clientCode = '020040000001';
+
+  // 전자서명 요청시 반환받은 접수아이디
+  var receiptId = '020090914013000001';
+
+  // 앱스킴 success시 반환된 서명값(Android:signature, iOS:sig)
+  var signature = '1234';
+
+  kakaocertService.verifyESign(clientCode, receiptId, signature,
+    function(response){
+        res.render('responseVerify', {path: req.path, result: response});
+    }, function(error){
+        res.render('response', {path: req.path, code: error.code, message: error.message});
+    });
+});
+
 
 /*
 * 본인인증 전자서명을 요청합니다.
