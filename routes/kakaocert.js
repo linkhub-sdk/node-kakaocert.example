@@ -250,7 +250,7 @@ router.get('/VerifyCMSApp', function (req, res, next) {
   // 앱스킴 success시 반환된 서명값(Android:signature, iOS:sig)
   var signature = '1234';
 
-  kakaocertService.verifyESign(clientCode, receiptId, signature,
+  kakaocertService.verifyCMS(clientCode, receiptId, signature,
     function(response){
         res.render('responseVerify', {path: req.path, result: response});
     }, function(error){
