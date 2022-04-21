@@ -13,11 +13,11 @@ kakaocert.config({
     // 인증토큰 IP제한기능 사용여부, 권장(true)
     IPRestrictOnOff: true,
 
-    // 인증토큰정보 로컬서버 시간 사용여부
-    UseLocalTimeYN: true,
-
     // 카카오써트 API 서비스 고정 IP 사용여부, true-사용, false-미사용, 기본값(false)
     UseStaticIP : false,
+
+    // 로컬시스템 시간 사용 여부 true - 사용, false-미사용, 기본값(false)
+    UseLocalTimeYN: true,
 
     defaultErrorHandler: function (Error) {
         console.log('Error Occur : [' + Error.code + '] ' + Error.message);
@@ -30,7 +30,7 @@ kakaocert.config({
 var kakaocertService = kakaocert.KakaocertService();
 
 
-/*
+ /*
   * 자동이체 출금동의 인증을 요청합니다.
   * - 해당 서비스는 전자서명을 하는 당사자와 출금계좌의 예금주가 동일한 경우에만 사용이 가능합니다.
   * - 전자서명 당사자와 출금계좌의 예금주가 동일인임을 체크하는 의무는 이용기관에 있습니다.
@@ -41,11 +41,18 @@ router.get('/RequestCMS', function (req, res, next) {
   // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
   var clientCode = '020040000001';
 
+  // AppToApp 인증 여부
+  // true-App To App 방식, false-Talk Message 방식
+  var appUseYN = false;
+
   // 자동이체 출금동의 요청정보 객체
   var requestCMS = {
 
     // 고객센터 전화번호, 카카오톡 인증메시지 중 "고객센터" 항목에 표시
     CallCenterNum : '1600-8536',
+
+    // 고객센터명, 카카오톡 인증메시지 중 "고객센터명" 항목에 표시
+    CallCenterName : '테스트',
 
     // 인증요청 만료시간(초), 최대값 1000, 인증요청 만료시간(초) 내에 미인증시 만료 상태로 처리됨
     Expires_in : 60,
@@ -103,11 +110,9 @@ router.get('/RequestCMS', function (req, res, next) {
     // 이용기관이 생성한 payload(메모) 값
     PayLoad : 'Payload123',
 
-    // AppToApp 방식 인증여부
-    isAppUseYN : false,
   };
 
-  kakaocertService.requestCMS(clientCode, requestCMS,
+  kakaocertService.requestCMS(clientCode, requestCMS, appUseYN,
     function(result){
       res.render('result', {path: req.path, receiptId: result.receiptId, tx_id: result.tx_id});
     }, function(error){
@@ -123,11 +128,18 @@ router.get('/RequestCMSApp', function (req, res, next) {
   // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
   var clientCode = '020040000001';
 
+  // AppToApp 인증 여부
+  // true-App To App 방식, false-Talk Message 방식
+  var appUseYN = true;
+
   // 자동이체 출금동의 요청정보 객체
   var requestCMS = {
 
     // 고객센터 전화번호, 카카오톡 인증메시지 중 "고객센터" 항목에 표시
     CallCenterNum : '1600-8536',
+
+    // 고객센터명, 카카오톡 인증메시지 중 "고객센터명" 항목에 표시
+    CallCenterName : '테스트',
 
     // 인증요청 만료시간(초), 최대값 1000, 인증요청 만료시간(초) 내에 미인증시 만료 상태로 처리됨
     Expires_in : 60,
@@ -185,11 +197,9 @@ router.get('/RequestCMSApp', function (req, res, next) {
     // 이용기관이 생성한 payload(메모) 값
     PayLoad : 'Payload123',
 
-    // AppToApp 방식 인증여부
-    isAppUseYN : true,
   };
 
-  kakaocertService.requestCMS(clientCode, requestCMS,
+  kakaocertService.requestCMS(clientCode, requestCMS, appUseYN,
     function(result){
       res.render('resultApp', {path: req.path, receiptId: result.receiptId, tx_id: result.tx_id});
     }, function(error){
@@ -277,6 +287,9 @@ router.get('/RequestVerifyAuth', function (req, res, next) {
 
     // 고객센터 전화번호, 카카오톡 인증메시지 중 "고객센터" 항목에 표시
     CallCenterNum : '1600-8536',
+
+    // 고객센터명, 카카오톡 인증메시지 중 "고객센터명" 항목에 표시
+    CallCenterName : '테스트',
 
     // 인증요청 만료시간(초), 최대값 1000, 인증요청 만료시간(초) 내에 미인증시 만료 상태로 처리됨
     Expires_in : 60,
@@ -383,11 +396,18 @@ router.get('/RequestESign', function (req, res, next) {
   // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
   var clientCode = '020040000001';
 
+  // AppToApp 인증 여부
+  // true-App To App 방식, false-Talk Message 방식
+  var appUseYN = false;
+
   // 전자서명 요청정보 객체
   var requestESign = {
 
     // 고객센터 전화번호, 카카오톡 인증메시지 중 "고객센터" 항목에 표시
     CallCenterNum : '1600-8536',
+
+    // 고객센터명, 카카오톡 인증메시지 중 "고객센터명" 항목에 표시
+    CallCenterName : '테스트',
 
     // 인증요청 만료시간(초), 최대값 1000, 인증요청 만료시간(초) 내에 미인증시 만료 상태로 처리됨
     Expires_in : 60,
@@ -430,7 +450,7 @@ router.get('/RequestESign', function (req, res, next) {
     PayLoad : 'Payload123',
   };
 
-  kakaocertService.requestESign(clientCode, requestESign,
+  kakaocertService.requestESign(clientCode, requestESign, appUseYN,
     function(result){
         res.render('result', {path: req.path, result: result.receiptId});
     }, function(error){
@@ -490,11 +510,18 @@ router.get('/RequestESignApp', function (req, res, next) {
   // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
   var clientCode = '020040000001';
 
+  // AppToApp 인증 여부
+  // true-App To App 방식, false-Talk Message 방식
+  var appUseYN = true;
+
   // 전자서명 요청정보 객체
   var requestESign = {
 
     // 고객센터 전화번호, 카카오톡 인증메시지 중 "고객센터" 항목에 표시
     CallCenterNum : '1600-8536',
+
+    // 고객센터명, 카카오톡 인증메시지 중 "고객센터명" 항목에 표시
+    CallCenterName : '테스트',
 
     // 인증요청 만료시간(초), 최대값 1000, 인증요청 만료시간(초) 내에 미인증시 만료 상태로 처리됨
     Expires_in : 60,
@@ -536,11 +563,9 @@ router.get('/RequestESignApp', function (req, res, next) {
     // PayLoad, 이용기관이 생성한 payload(메모) 값
     PayLoad : 'Payload123',
 
-    // AppToApp 방식 인증여부
-    isAppUseYN : true,
   };
 
-  kakaocertService.requestESign(clientCode, requestESign,
+  kakaocertService.requestESign(clientCode, requestESign, appUseYN,
     function(result){
         res.render('resultApp', {path: req.path, receiptId: result.receiptId, tx_id: result.tx_id});
     }, function(error){
