@@ -148,10 +148,10 @@ router.get('/RequestCMSApp', function (req, res, next) {
     ReceiverBirthDay : '19900108',
 
     // 수신자 휴대폰번호
-    ReceiverHP : '01043245117',
+    ReceiverHP : '010111222',
 
     // 수신자 성명
-    ReceiverName : '정요한',
+    ReceiverName : '홍길동',
 
     // 예금주명
     BankAccountName : '예금주명',
