@@ -114,7 +114,7 @@ router.get('/RequestCMS', function (req, res, next) {
 
   kakaocertService.requestCMS(clientCode, requestCMS, appUseYN,
     function(result){
-      res.render('result', {path: req.path, receiptId: result.receiptId, tx_id: result.tx_id});
+      res.render('result', {path: req.path, result: result.receiptId});
     }, function(error){
       res.render('response', {path: req.path, code: error.code, message: error.message});
   });
