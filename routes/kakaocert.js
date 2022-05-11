@@ -58,7 +58,7 @@ router.get('/RequestCMS', function (req, res, next) {
     Expires_in : 60,
 
     // 수신자 생년월일, 형식 : YYYYMMDD
-    ReceiverBirthDay : '19800101',
+    ReceiverBirthDay : '19700101',
 
     // 수신자 휴대폰번호
     ReceiverHP : '010111222',
@@ -69,7 +69,7 @@ router.get('/RequestCMS', function (req, res, next) {
     // 예금주명
     BankAccountName : '예금주명',
 
-    // 은행코드
+    // 참가기관 코드
     BankCode : '004',
 
     // 계좌번호, 사용자가 식별가능한 범위내에서 계좌번호의 일부를 마스킹 처리할 수 있음(예시) 371-02-6***85
@@ -145,7 +145,7 @@ router.get('/RequestCMSApp', function (req, res, next) {
     Expires_in : 60,
 
     // 수신자 생년월일, 형식 : YYYYMMDD
-    ReceiverBirthDay : '19900108',
+    ReceiverBirthDay : '19700101',
 
     // 수신자 휴대폰번호
     ReceiverHP : '010111222',
@@ -156,7 +156,7 @@ router.get('/RequestCMSApp', function (req, res, next) {
     // 예금주명
     BankAccountName : '예금주명',
 
-    // 은행코드
+    // 참가기관 코드
     BankCode : '004',
 
     // 계좌번호, 사용자가 식별가능한 범위내에서 계좌번호의 일부를 마스킹 처리할 수 있음(예시) 371-02-6***85
@@ -216,7 +216,7 @@ router.get('/GetCMSState', function (req, res, next) {
   var clientCode = '020040000001';
 
   // 자동이체 출금동의 요청시 반환받은 접수아이디
-  var receiptId = '021050410003800001';
+  var receiptId = '022050410003800001';
 
   kakaocertService.getCMSState(clientCode, receiptId,
     function(response){
@@ -237,7 +237,7 @@ router.get('/VerifyCMS', function (req, res, next) {
   var clientCode = '020040000001';
 
   // 자동이체 출금동의 요청시 반환받은 접수아이디
-  var receiptId = '020090914013000001';
+  var receiptId = '022050914013000001';
 
   kakaocertService.verifyCMS(clientCode, receiptId,
     function(response){
@@ -258,7 +258,7 @@ router.get('/VerifyCMSApp', function (req, res, next) {
   var clientCode = '020040000001';
 
   // 전자서명 요청시 반환받은 접수아이디
-  var receiptId = '020090914013000001';
+  var receiptId = '022050914013000001';
 
   // 앱스킴 success시 반환된 서명값(Android:signature, iOS:sig)
   var signature = '1234';
@@ -295,7 +295,7 @@ router.get('/RequestVerifyAuth', function (req, res, next) {
     Expires_in : 60,
 
     // 수신자 생년월일, 형식 : YYYYMMDD
-    ReceiverBirthDay : '19800101',
+    ReceiverBirthDay : '19700101',
 
     // 수신자 휴대폰번호
     ReceiverHP : '010111222',
@@ -354,7 +354,7 @@ router.get('/GetVerifyAuthState', function (req, res, next) {
   var clientCode = '020040000001';
 
   // 본인인증 요청시 반환받은 접수아이디
-  var receiptId = '020090914003300001';
+  var receiptId = '022050914003300001';
 
   kakaocertService.getVerifyAuthState(clientCode, receiptId,
     function(response){
@@ -377,7 +377,7 @@ router.get('/VerifyAuth', function (req, res, next) {
   var clientCode = '020040000001';
 
   // 본인인증 요청시 반환받은 접수아이디
-  var receiptId = '020090914003300001';
+  var receiptId = '022050914003300001';
 
   kakaocertService.verifyAuth(clientCode, receiptId,
     function(response){
@@ -413,7 +413,7 @@ router.get('/RequestESign', function (req, res, next) {
     Expires_in : 60,
 
     // 수신자 생년월일, 형식 : YYYYMMDD
-    ReceiverBirthDay : '19800101',
+    ReceiverBirthDay : '19700101',
 
     // 수신자 휴대폰번호
     ReceiverHP : '010111222',
@@ -468,7 +468,7 @@ router.get('/GetESignState', function (req, res, next) {
   var clientCode = '020040000001';
 
   // 전자서명 요청시 반환받은 접수아이디
-  var receiptId = '020090914071900001';
+  var receiptId = '022050914071900001';
 
   kakaocertService.getESignState(clientCode, receiptId,
     function(response){
@@ -490,7 +490,7 @@ router.get('/VerifyESign', function (req, res, next) {
   var clientCode = '020040000001';
 
   // 전자서명 요청시 반환받은 접수아이디
-  var receiptId = '020090914071900001';
+  var receiptId = '022050914071900001';
 
   kakaocertService.verifyESign(clientCode, receiptId,
     function(response){
@@ -527,7 +527,7 @@ router.get('/RequestESignApp', function (req, res, next) {
     Expires_in : 60,
 
     // 수신자 생년월일, 형식 : YYYYMMDD
-    ReceiverBirthDay : '19800101',
+    ReceiverBirthDay : '19700101',
 
     // 수신자 휴대폰번호
     ReceiverHP : '010111222',
@@ -585,7 +585,7 @@ router.get('/VerifyESignApp', function (req, res, next) {
   var clientCode = '020040000001';
 
   // 전자서명 요청시 반환받은 접수아이디
-  var receiptId = '020090914071900001';
+  var receiptId = '022050914071900001';
 
   // 앱스킴 success시 반환된 서명값(Android:signature, iOS:sig)
   var signature = '1234';
