@@ -35,6 +35,7 @@ var kakaocertService = kakaocert.KakaocertService();
   * - 해당 서비스는 전자서명을 하는 당사자와 출금계좌의 예금주가 동일한 경우에만 사용이 가능합니다.
   * - 전자서명 당사자와 출금계좌의 예금주가 동일인임을 체크하는 의무는 이용기관에 있습니다.
   * - 금융결제원에 증빙자료(전자서명 데이터) 제출은 이용기관 측 에서 진행해야 합니다.
+  * - https://www.kakaocert.com/docs/CMS/API/node#RequestCMS
   */
 router.get('/RequestCMS', function (req, res, next) {
 
@@ -208,8 +209,9 @@ router.get('/RequestCMSApp', function (req, res, next) {
 });
 
 /*
-  * 자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다.
-  */
+ * 자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다.
+ * - https://www.kakaocert.com/docs/CMS/API/node#GetCMSState
+ */
 router.get('/GetCMSState', function (req, res, next) {
 
   // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
@@ -227,10 +229,11 @@ router.get('/GetCMSState', function (req, res, next) {
 });
 
 /*
-  * 자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명을 검증합니다.
-  * - 서명검증시 전자서명 데이터 전문(signedData)이 반환됩니다.
-  * - 카카오페이 서비스 운영정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류처리됩니다.
-  */
+ * 자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명을 검증합니다.
+ * - 서명검증시 전자서명 데이터 전문(signedData)이 반환됩니다.
+ * - 카카오페이 서비스 운영정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류처리됩니다.
+ * - https://www.kakaocert.com/docs/CMS/API/node#T-VerifyCMS
+ */
 router.get('/VerifyCMS', function (req, res, next) {
 
   // Kakaocert 이용기관코드, Kakaocert 파트너 사이트에서 확인
@@ -251,6 +254,7 @@ router.get('/VerifyCMS', function (req, res, next) {
 * [App to App] 자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명을 검증합니다.
 * - 서명검증시 전자서명 데이터 전문(signedData)이 반환됩니다.
 * - 카카오페이 서비스 운영정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류처리됩니다.
+* - https://www.kakaocert.com/docs/CMS/API/node#A-VerifyCMS
 */
 router.get('/VerifyCMSApp', function (req, res, next) {
 
@@ -261,7 +265,7 @@ router.get('/VerifyCMSApp', function (req, res, next) {
   var receiptId = '022050914013000001';
 
   // 앱스킴 success시 반환된 서명값(Android:signature, iOS:sig)
-  var signature = '1234';
+  var signature = '';
 
   kakaocertService.verifyCMS(clientCode, receiptId, signature,
     function(response){
@@ -276,6 +280,7 @@ router.get('/VerifyCMSApp', function (req, res, next) {
 * 본인인증 전자서명을 요청합니다.
 * - 본인인증 서비스에서 이용기관이 생성하는 Token은 사용자가 전자서명할 원문이 됩니다. 이는 보안을 위해 1회용으로 생성해야 합니다.
 * - 사용자는 이용기관이 생성한 1회용 토큰을 서명하고, 이용기관은 그 서명값을 검증함으로써 사용자에 대한 인증의 역할을 수행하게 됩니다.
+* - https://www.kakaocert.com/docs/verifyAuth/API/node#RequestVerifyAuth
 */
 router.get('/RequestVerifyAuth', function (req, res, next) {
 
@@ -347,6 +352,7 @@ router.get('/RequestVerifyAuth', function (req, res, next) {
 
 /*
 * 본인인증 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다.
+* - https://www.kakaocert.com/docs/verifyAuth/API/node#GetVerifyAuthState
 */
 router.get('/GetVerifyAuthState', function (req, res, next) {
 
@@ -370,6 +376,7 @@ router.get('/GetVerifyAuthState', function (req, res, next) {
 * - 서명검증시 전자서명 데이터 전문(signedData)이 반환됩니다.
 * - 본인인증 요청시 작성한 Token과 서명 검증시 반환되는 signedData의 동일여부를 확인하여 본인인증 검증을 완료합니다.
 * - 카카오페이 서비스 운영정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류처리됩니다.
+* - https://www.kakaocert.com/docs/verifyAuth/API/node#F-VerifyAuth
 */
 router.get('/VerifyAuth', function (req, res, next) {
 
@@ -390,6 +397,7 @@ router.get('/VerifyAuth', function (req, res, next) {
 
 /*
 * 전자서명 인증을 요청합니다. (Talk Message 방식)
+* - https://www.kakaocert.com/docs/ESign/API/node#RequestESign
 */
 router.get('/RequestESign', function (req, res, next) {
 
@@ -461,6 +469,7 @@ router.get('/RequestESign', function (req, res, next) {
 
 /*
 * 전자서명 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다.
+* - https://www.kakaocert.com/docs/ESign/API/node#GetESignState
 */
 router.get('/GetESignState', function (req, res, next) {
 
@@ -483,6 +492,7 @@ router.get('/GetESignState', function (req, res, next) {
 * [Talk Message] 전자서명 요청시 반환된 접수아이디를 통해 서명을 검증합니다.
 * - 서명검증시 전자서명 데이터 전문(signedData)이 반환됩니다.
 * - 카카오페이 서비스 운영정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류처리됩니다.
+* - https://www.kakaocert.com/docs/ESign/API/node#T-VerifyESign
 */
 router.get('/VerifyESign', function (req, res, next) {
 
@@ -504,6 +514,7 @@ router.get('/VerifyESign', function (req, res, next) {
 
 /*
 * 전자서명 인증을 요청합니다. (App To App 방식)
+* - https://www.kakaocert.com/docs/ESign/API/node#A-VerifyESign
 */
 router.get('/RequestESignApp', function (req, res, next) {
 
